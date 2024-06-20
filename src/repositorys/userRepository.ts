@@ -5,7 +5,7 @@ import { UserModel } from "../models";
 
 class UserRepository implements UserIRepository {
   async getAll(): Promise<User[]> {
-    const users = await UserModel.find();
+    const users = await UserModel.find({}, { password: 0 });
 
     return users;
   }
