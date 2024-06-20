@@ -4,7 +4,7 @@ import { BadRequest, NotFound } from "../exceptions";
 import { ErrorCode } from "../exceptions/root";
 
 interface AuthenticatedRequest extends Request {
-  user: JwtPayload;
+  user?: JwtPayload;
 }
 
 const authenticateToken = (
@@ -20,15 +20,17 @@ const authenticateToken = (
 
   const [, token] = authHeader.split(" ");
 
-  const user = verify(token, String(process.env.JWT_SECRET));
+  try {
+    const user = verify(token, String(process.env.JWT_SECRET));
 
-  if (user) {
-    request.user = user as JwtPayload;
+    if (user) {
+      request.user = user as JwtPayload;
 
-    return next();
+      return next();
+    }
+  } catch (error) {
+    throw new BadRequest("Token inválido", ErrorCode.BAD_REQUEST);
   }
-
-  throw new BadRequest("Token inválido", ErrorCode.BAD_REQUEST);
 };
 
 export default authenticateToken;

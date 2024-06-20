@@ -6,30 +6,41 @@ import UserRepository from "../repositorys/userRepository";
 import { NotFound, BadRequest } from "../exceptions";
 
 interface AuthenticatedRequest extends Request {
-  user: JwtPayload;
+  user?: JwtPayload;
 }
 
 export const checkRole = (roles: Array<Roles>) => {
-  return async (req: Request, _res: Response, next: NextFunction) => {
-    const id = (req as AuthenticatedRequest).user.sub;
+  return async (
+    req: AuthenticatedRequest,
+    _res: Response,
+    next: NextFunction
+  ) => {
+    const { user } = req;
 
-    if (!id) throw new NotFound("Usuário", 404);
+    if (!user) throw new NotFound("Usuário no cabeçalho da requisição", 404);
+
+    const { sub } = user;
+
+    if (!sub)
+      throw new NotFound("Id do usuário no cabeçalho da requisição", 404);
 
     const userService = new UserService(new UserRepository());
 
-    const user = await userService.getById(id);
+    try {
+      const userRole = await userService.getById(sub);
 
-    if (!user) throw new NotFound("Usuário", 404);
+      if (roles.indexOf(userRole.role) > -1) {
+        next();
+        return;
+      }
 
-    if (roles.indexOf(user.role) > -1) {
-      next();
-      return;
+      throw new BadRequest(
+        "Você não tem permissão para acessar este recurso",
+        401
+      );
+    } catch (error) {
+      throw new BadRequest("Erro ao verificar permissão", 400);
     }
-
-    throw new BadRequest(
-      "Você não tem permissão para acessar este recurso",
-      401
-    );
   };
 };
 
