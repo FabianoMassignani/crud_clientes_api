@@ -55,8 +55,13 @@ class UserService {
       throw new BadRequest("Nome não informado", ErrorCode.BAD_REQUEST);
     }
 
-    if (!verifyRole(role)) {
-      throw new BadRequest("Role inválida", ErrorCode.BAD_REQUEST);
+    if (!role.length) {
+      throw new BadRequest("Papel não informado", ErrorCode.BAD_REQUEST);
+    }
+
+    for (const r of role) {
+      if (!verifyRole(r))
+        throw new BadRequest("Papel não permitido", ErrorCode.BAD_REQUEST);
     }
 
     if (typeof active !== "boolean") {

@@ -29,7 +29,7 @@ const authenticateToken = (
       return next();
     }
   } catch (error) {
-    throw new BadRequest("Token inválido", ErrorCode.BAD_REQUEST);
+    next(error);
   }
 };
 

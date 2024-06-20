@@ -29,17 +29,17 @@ export const checkRole = (roles: Array<Roles>) => {
     try {
       const userRole = await userService.getById(sub);
 
-      if (roles.indexOf(userRole.role) > -1) {
-        next();
-        return;
+      const rolesUser = userRole.role;
+
+      const hasRole = roles.some((role) => rolesUser.includes(role));
+
+      if (hasRole) {
+        return next();
       }
 
-      throw new BadRequest(
-        "Você não tem permissão para acessar este recurso",
-        401
-      );
+      throw new BadRequest("Permissão negada", 401);
     } catch (error) {
-      throw new BadRequest("Erro ao verificar permissão", 400);
+      next(error);
     }
   };
 };
