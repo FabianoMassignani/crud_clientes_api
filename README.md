@@ -1,7 +1,5 @@
 # Node.JS
 
-## Crud de clientes
-
 ## Como Rodar o Projeto Localmente
 
 1. Clone o repositório:
