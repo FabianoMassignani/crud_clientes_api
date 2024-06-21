@@ -30,12 +30,13 @@ cp .env
 4. Inicie o servidor de desenvolvimento da aplicação e do servidor:
 
 ```
-npm start
+npm run dev
+
 ```
 
 ## Testes
 
 ```bash
-# unit tests
+# testes unitários
 $ npm test
 ```
