@@ -34,3 +34,10 @@ cp .env
 ```
 npm start
 ```
+
+## Testes
+
+```bash
+# unit tests
+$ npm test
+```
