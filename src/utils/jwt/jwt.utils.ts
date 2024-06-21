@@ -9,7 +9,7 @@ export const generateToken = (
 ): string => {
   try {
     const token = sign(payload, JWT_SECRET, {
-      expiresIn: "1h",
+      expiresIn: "1min",
       ...options,
     });
 

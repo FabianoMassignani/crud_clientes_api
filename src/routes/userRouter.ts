@@ -13,14 +13,31 @@ export default class UserRouter {
     this.router = router;
     this.controller = controller;
 
-    this.router.post("/register", asyncMethod(this.controller.register));
+    this.router.get(
+      "/getById/:id",
+      authenticateToken,
+      [authenticateToken, checkRole([Roles.ADMIN, Roles.USER])],
+      asyncMethod(this.controller.getById)
+    );
+    this.router.post(
+      "/register",
+      asyncMethod(this.controller.register)
+    );
     this.router.get(
       "/getAll",
-      [authenticateToken, checkRole([Roles.ADMIN])],
+      [authenticateToken, checkRole([Roles.ADMIN, Roles.USER])],
       asyncMethod(this.controller.getAll)
     );
-    this.router.put("/", asyncMethod(this.controller.update));
-    this.router.delete("/:id", asyncMethod(this.controller.delete));
+    this.router.put(
+      "/",
+      [authenticateToken, checkRole([Roles.ADMIN])],
+      asyncMethod(this.controller.update)
+    );
+    this.router.delete(
+      "/:id",
+      [authenticateToken, checkRole([Roles.ADMIN])],
+      asyncMethod(this.controller.delete)
+    );
   }
 
   get getRouter() {

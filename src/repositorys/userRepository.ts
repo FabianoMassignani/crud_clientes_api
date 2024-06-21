@@ -1,4 +1,7 @@
-import { CreateUserDto } from "../interfaces/user/user.interface";
+import {
+  CreateUserDto,
+  UpdateUserDto,
+} from "../interfaces/user/user.interface";
 import { UserIRepository } from "./userIRepository";
 import { User } from "../interfaces/user/user.interface";
 import { UserModel } from "../models";
@@ -28,8 +31,10 @@ class UserRepository implements UserIRepository {
     return user;
   }
 
-  async update(id: string, data: CreateUserDto): Promise<User | null> {
-    const user = await UserModel.findByIdAndUpdate(id, data, { new: true });
+  async update(data: UpdateUserDto): Promise<User | null> {
+    const user = await UserModel.findByIdAndUpdate(data.id, data, {
+      new: true,
+    });
 
     return user;
   }

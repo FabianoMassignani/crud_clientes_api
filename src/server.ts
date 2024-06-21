@@ -13,7 +13,7 @@ const app: Express = express();
 connectDB();
 app.use(cors(corsOptions));
 app.use(helmet());
-app.use(limiter);
+// app.use(limiter);
 app.use(express.json());
 app.use(telemetry);
 app.use(routes);

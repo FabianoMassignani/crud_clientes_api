@@ -9,6 +9,7 @@ import {
 } from "../utils";
 import {
   CreateUserDto,
+  UpdateUserDto,
   UserLogin,
   User,
 } from "../interfaces/user/user.interface";
@@ -41,7 +42,7 @@ class UserService {
   }
 
   async create(data: CreateUserDto): Promise<User> {
-    const { email, password, username, active, role } = data;
+    const { email, password, username, active = true, role } = data;
 
     if (!email) {
       throw new BadRequest("Email não informado", ErrorCode.BAD_REQUEST);
@@ -108,6 +109,7 @@ class UserService {
     });
 
     const data: UserLogin = {
+      id: user.id,
       username: user.username,
       email: user.email,
       role: user.role,
@@ -118,18 +120,26 @@ class UserService {
     return data;
   }
 
-  async update(id: string, data: CreateUserDto): Promise<User> {
+  async update(data: UpdateUserDto): Promise<User> {
+    const { id } = data;
+
     if (!id) {
       throw new BadRequest("Id não informado", ErrorCode.BAD_REQUEST);
     }
 
-    const user = await this.userRepository.update(id, data);
+    const user = await this.userRepository.findById(id);
 
     if (!user) {
       throw new NotFound("Usuário", ErrorCode.NOT_FOUND);
     }
 
-    return user;
+    const userUpdate = await this.userRepository.update(data);
+
+    if (!userUpdate) {
+      throw new NotFound("Usuário", ErrorCode.NOT_FOUND);
+    }
+
+    return userUpdate;
   }
 
   async delete(id: string): Promise<User> {

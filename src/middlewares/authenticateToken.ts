@@ -1,6 +1,6 @@
 import { Request, Response, NextFunction } from "express";
-import { verify, JwtPayload } from "jsonwebtoken";
-import { BadRequest, NotFound } from "../exceptions";
+import { verify, JwtPayload, TokenExpiredError } from "jsonwebtoken";
+import { NotUnauthorized, NotFound } from "../exceptions";
 import { ErrorCode } from "../exceptions/root";
 
 interface AuthenticatedRequest extends Request {
@@ -29,7 +29,11 @@ const authenticateToken = (
       return next();
     }
   } catch (error) {
-    next(error);
+    if (error instanceof TokenExpiredError) {
+      next(new NotUnauthorized("Token expirado", ErrorCode.UNAUTHORIZED));
+    } else {
+      next(error);
+    }
   }
 };
 

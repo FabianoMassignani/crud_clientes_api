@@ -38,6 +38,7 @@ class AuthServices {
     });
 
     const data: UserLogin = {
+      id: user.id,
       username: user.username,
       email: user.email,
       role: user.role,

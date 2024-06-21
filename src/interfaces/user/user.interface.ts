@@ -13,7 +13,7 @@ export enum Roles {
   USER = "USER",
 }
 
-export type UserLogin = Omit<User, "id" | "password">;
+export type UserLogin = Omit<User, "password">;
 
 export type CreateUserDto = Omit<User, "id" | "accessToken">;
 
