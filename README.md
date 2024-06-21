@@ -23,8 +23,8 @@ cp .env
 ```
 
 ```
- MONGO_URI="mongodb+srv://fabiano:fabiano@app.4x3lw9q.mongodb.net/?retryWrites=true&w=majority&appName=app"
- MONGO_URI_TEST="mongodb+srv://fabiano:fabiano@app.4x3lw9q.mongodb.net/?retryWrites=true&w=majority&appName=app"
+ MONGO_URI=""
+ MONGO_URI_TEST=""
  PORT=3001
  JWT_SECRET="mysecretkey"
 ```
