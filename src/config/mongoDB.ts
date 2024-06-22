@@ -1,17 +1,22 @@
 import { connect } from "mongoose";
-import { MONGO_URI, MONGO_URI_TEST } from "./secrets";
+import { MONGO_URI, MONGO_URI_TEST, NODE_ENV } from "./secrets";
 
 const connectDB = async () => {
   try {
-    if (process.env.NODE_ENV === "test") {
+    if (NODE_ENV === "test") {
       await connect(MONGO_URI_TEST);
       console.log("MongoDB conectado com sucesso no teste!");
       return;
     }
 
+    if (NODE_ENV === "prod") {
+      await connect(MONGO_URI);
+      console.log("MongoDB conectado com sucesso no prod!");
+      return;
+    }
+
     await connect(MONGO_URI);
     console.log("MongoDB conectado com sucesso no dev!");
-    return;
   } catch (err) {
     console.error(err);
   }
