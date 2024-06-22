@@ -44,16 +44,16 @@ class UserService {
   async create(data: CreateUserDto): Promise<User> {
     const { email, password, username, active = true, role } = data;
 
+    if (!username) {
+      throw new BadRequest("Nome não informado", ErrorCode.BAD_REQUEST);
+    }
+
     if (!email) {
       throw new BadRequest("Email não informado", ErrorCode.BAD_REQUEST);
     }
 
     if (!password) {
       throw new BadRequest("Senha não informada", ErrorCode.BAD_REQUEST);
-    }
-
-    if (!username) {
-      throw new BadRequest("Nome não informado", ErrorCode.BAD_REQUEST);
     }
 
     if (!role.length) {

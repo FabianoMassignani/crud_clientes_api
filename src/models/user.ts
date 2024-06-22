@@ -18,6 +18,34 @@ const userSchema: Schema = new Schema(
       type: String,
       required: true,
     },
+    phone: {
+      type: String,
+      required: false,
+    },
+    cpf: {
+      type: String,
+      required: false,
+    },
+    cnpj: {
+      type: String,
+      required: false,
+    },
+    endereco: {
+      type: String,
+      required: false,
+    },
+    cep: {
+      type: String,
+      required: false,
+    },
+    cidade: {
+      type: String,
+      required: false,
+    },
+    estado: {
+      type: String,
+      required: false,
+    },
     role: {
       type: [String],
       enum: ["USER", "ADMIN"],
