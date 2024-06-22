@@ -25,11 +25,15 @@ class UserController {
   };
 
   getAll = async (req: Request, res: Response): Promise<Response> => {
-    const query = req.query;
+    const { limit, page, search } = req.query as {
+      limit: string;
+      page: string;
+      search: string;
+    };
 
-    const users = await this.userService.getAll(query);
+    const { users, total } = await this.userService.getAll(limit, page, search);
 
-    return res.status(200).json({ users: users });
+    return res.status(200).json({ users: users, total: total });
   };
 
   update = async (req: Request, res: Response): Promise<Response> => {

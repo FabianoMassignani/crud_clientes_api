@@ -35,12 +35,28 @@ class UserService {
     return user;
   }
 
-  async getAll(query: any = {}): Promise<User[]> {
-    const search = query.search || "";
+  async getAll(
+    limit: string,
+    page: string,
+    search: string
+  ): Promise<{ users: User[]; total: number }> {
+    if (!limit) {
+      throw new BadRequest("Limit não informado", ErrorCode.BAD_REQUEST);
+    }
 
-    const users = await this.userRepository.getAll(search);
+    if (!page) {
+      throw new BadRequest("Page não informado", ErrorCode.BAD_REQUEST);
+    }
 
-    return users;
+    const users = await this.userRepository.getAll(
+      parseInt(limit),
+      parseInt(page),
+      search
+    );
+
+    const total = await this.userRepository.contUsers();
+
+    return { users, total };
   }
 
   async create(data: CreateUserDto): Promise<User> {

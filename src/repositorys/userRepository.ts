@@ -7,7 +7,7 @@ import { User } from "../interfaces/user/user.interface";
 import { UserModel } from "../models";
 
 class UserRepository implements UserIRepository {
-  async getAll(search: string): Promise<User[]> {
+  async getAll(limit: number, page: number, search: string): Promise<User[]> {
     const users = await UserModel.find(
       {
         $or: [
@@ -16,9 +16,17 @@ class UserRepository implements UserIRepository {
         ],
       },
       { password: 0 }
-    );
+    )
+      .limit(limit)
+      .skip(page);
 
     return users;
+  }
+
+  async contUsers(): Promise<number> {
+    const length = await UserModel.countDocuments();
+    
+    return length;
   }
 
   async findById(id: string): Promise<User | null> {
