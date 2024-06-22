@@ -3,14 +3,15 @@ import app from "../server";
 
 describe("UserController", () => {
   let userData = {
+    username: "Test User",
     email: "test@example.com",
     password: "password123",
-    username: "Test User",
     active: true,
-    role: "client",
+    role: ["ADMIN"],
   };
 
   let idUserCriado = "";
+  let token = "";
 
   it("Registrar novo usuário sem e-mail", async () => {
     const response = await request(app)
@@ -45,12 +46,12 @@ describe("UserController", () => {
       .send(userData);
 
     expect(response.status).toBe(201);
-    expect(response.body).toHaveProperty("data");
-    expect(response.body.data).toHaveProperty("email", userData.email);
-    expect(response.body.data).toHaveProperty("username", userData.username);
+    expect(response.body).toHaveProperty("user");
+    expect(response.body.user).toHaveProperty("email", userData.email);
+    expect(response.body.user).toHaveProperty("username", userData.username);
     expect(response.body.message).toBe("Criado com sucesso");
 
-    idUserCriado = response.body.data._id;
+    idUserCriado = response.body.user._id;
   });
 
   it("Não deve permitir o registro de um usuário com e-mail duplicado", async () => {
@@ -114,10 +115,71 @@ describe("UserController", () => {
     expect(response.body).toHaveProperty("email", userData.email);
     expect(response.body).toHaveProperty("username", userData.username);
     expect(response.body).toHaveProperty("accessToken");
+
+    token = response.body.accessToken;
+  });
+
+  it("Buscar usuário por ID", async () => {
+    const response = await request(app)
+      .get(`/api/users/getById/${idUserCriado}`)
+      .set("Authorization", `Bearer ${token}`);
+
+    expect(response.status).toBe(200);
+    expect(response.body.user).toHaveProperty("email", userData.email);
+    expect(response.body.user).toHaveProperty("username", userData.username);
+  });
+
+  it("Buscar todos os usuários", async () => {
+    const response = await request(app)
+      .get("/api/users/getAll")
+      .set("Authorization", `Bearer ${token}`);
+
+    expect(response.status).toBe(200);
+    expect(response.body).toHaveProperty("users");
+  });
+
+  it("Atualizar usuário sem informar o nome", async () => {
+    let data = { ...userData, id: idUserCriado, username: "" };
+
+    const response = await request(app)
+      .put("/api/users")
+      .send(data)
+      .set("Authorization", `Bearer ${token}`);
+
+    expect(response.status).toBe(400);
+    expect(response.body.message).toBe("Nome não informado");
+  });
+
+  it("Atualizar usuário sem informar o e-mail", async () => {
+    let data = { ...userData, id: idUserCriado, email: "" };
+
+    const response = await request(app)
+      .put("/api/users")
+      .send(data)
+      .set("Authorization", `Bearer ${token}`);
+
+    expect(response.status).toBe(400);
+    expect(response.body.message).toBe("Email não informado");
+  });
+
+  it("Atualizar usuário", async () => {
+    let data = { ...userData, id: idUserCriado, username: "Test User Updated" };
+
+    const response = await request(app)
+      .put("/api/users")
+      .send(data)
+      .set("Authorization", `Bearer ${token}`);
+
+    expect(response.status).toBe(201);
+    expect(response.body.user).toHaveProperty("email", userData.email);
+    expect(response.body.user).toHaveProperty("username", "Test User Updated");
+    expect(response.body.message).toBe("Editado com sucesso");
   });
 
   it("Deletar usuário", async () => {
-    const response = await request(app).delete(`/api/users/${idUserCriado}`);
+    const response = await request(app)
+      .delete(`/api/users/${idUserCriado}`)
+      .set("Authorization", `Bearer ${token}`);
 
     expect(response.status).toBe(201);
   });

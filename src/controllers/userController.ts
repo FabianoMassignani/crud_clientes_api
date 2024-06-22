@@ -25,7 +25,9 @@ class UserController {
   };
 
   getAll = async (req: Request, res: Response): Promise<Response> => {
-    const users = await this.userService.getAll();
+    const query = req.query;
+
+    const users = await this.userService.getAll(query);
 
     return res.status(200).json({ users: users });
   };

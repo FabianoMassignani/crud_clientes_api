@@ -5,7 +5,7 @@ import {
 import { User } from "../interfaces/user/user.interface";
 
 export interface UserIRepository {
-  getAll(): Promise<User[]>;
+  getAll(search: string): Promise<User[]>;
   create(data: CreateUserDto): Promise<User>;
   findByEmail(email: string): Promise<User | null>;
   findById(id: string): Promise<User | null>;

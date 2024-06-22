@@ -35,8 +35,10 @@ class UserService {
     return user;
   }
 
-  async getAll(): Promise<User[]> {
-    const users = await this.userRepository.getAll();
+  async getAll(query: any = {}): Promise<User[]> {
+    const search = query.search || "";
+
+    const users = await this.userRepository.getAll(search);
 
     return users;
   }
@@ -131,6 +133,37 @@ class UserService {
 
     if (!user) {
       throw new NotFound("Usuário", ErrorCode.NOT_FOUND);
+    }
+
+    const { email, password, username, active = true, role } = data;
+
+    if (!username) {
+      throw new BadRequest("Nome não informado", ErrorCode.BAD_REQUEST);
+    }
+
+    if (!email) {
+      throw new BadRequest("Email não informado", ErrorCode.BAD_REQUEST);
+    }
+
+    if (!password) {
+      throw new BadRequest("Senha não informada", ErrorCode.BAD_REQUEST);
+    }
+
+    if (!role) {
+      throw new BadRequest("Papel não informado", ErrorCode.BAD_REQUEST);
+    }
+
+    if (!role.length) {
+      throw new BadRequest("Papel não informado", ErrorCode.BAD_REQUEST);
+    }
+
+    for (const r of role) {
+      if (!verifyRole(r))
+        throw new BadRequest("Papel não permitido", ErrorCode.BAD_REQUEST);
+    }
+
+    if (typeof active !== "boolean") {
+      throw new BadRequest("Ativo não informado", ErrorCode.BAD_REQUEST);
     }
 
     const userUpdate = await this.userRepository.update(data);

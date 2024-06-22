@@ -7,8 +7,16 @@ import { User } from "../interfaces/user/user.interface";
 import { UserModel } from "../models";
 
 class UserRepository implements UserIRepository {
-  async getAll(): Promise<User[]> {
-    const users = await UserModel.find({}, { password: 0 });
+  async getAll(search: string): Promise<User[]> {
+    const users = await UserModel.find(
+      {
+        $or: [
+          { name: { $regex: search, $options: "i" } },
+          { email: { $regex: search, $options: "i" } },
+        ],
+      },
+      { password: 0 }
+    );
 
     return users;
   }
