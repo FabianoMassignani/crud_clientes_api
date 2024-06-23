@@ -39,13 +39,13 @@ npm run dev
 1. Crie a imagem do Docker:
 
 ```
-docker build -t nome-da-imagem .
+docker build -t api .
 ```
 
 2. Execute o container:
 
 ```
-docker run -p 3001:3001 -d nome-da-imagem
+docker run -p 3001:3001 -d api
 ```
 
 ## Rotas
