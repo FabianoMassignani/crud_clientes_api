@@ -196,7 +196,7 @@ describe("UserController", () => {
   it("Atualizar usuário sem informar o token", async () => {
     let data = {
       ...userAdmin,
-      id: idUserCriado,
+      _id: idUserCriado,
       username: "Test User Updated",
     };
 
@@ -207,7 +207,7 @@ describe("UserController", () => {
   });
 
   it("Atualizar usuário sem informar o nome", async () => {
-    let data = { ...userAdmin, id: idUserCriado, username: "" };
+    let data = { ...userAdmin, _id: idUserCriado, username: "" };
 
     const response = await request(app)
       .put("/api/users")
@@ -219,7 +219,7 @@ describe("UserController", () => {
   });
 
   it("Atualizar usuário sem informar o e-mail", async () => {
-    let data = { ...userAdmin, id: idUserCriado, email: "" };
+    let data = { ...userAdmin, _id: idUserCriado, email: "" };
 
     const response = await request(app)
       .put("/api/users")
@@ -233,7 +233,7 @@ describe("UserController", () => {
   it("Atualizar usuário", async () => {
     let data = {
       ...userAdmin,
-      id: idUserCriado,
+      _id: idUserCriado,
       username: "Test User Updated",
     };
 
@@ -277,7 +277,7 @@ describe("UserController", () => {
   it("Atualizar usuário sem role necessária", async () => {
     let data = {
       ...user,
-      id: idUserCriado2,
+      _id: idUserCriado2,
     };
 
     const response = await request(app)
