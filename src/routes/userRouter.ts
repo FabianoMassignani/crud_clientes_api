@@ -14,17 +14,17 @@ export default class UserRouter {
     this.controller = controller;
 
     this.router.get(
-      "/:id",
+      "/getById/:id",
       authenticateToken,
       [authenticateToken, checkRole([Roles.ADMIN, Roles.USER])],
       asyncMethod(this.controller.getById)
     );
-    this.router.post("/", asyncMethod(this.controller.register));
     this.router.get(
       "/getAll",
       [authenticateToken, checkRole([Roles.ADMIN, Roles.USER])],
       asyncMethod(this.controller.getAll)
     );
+    this.router.post("/", asyncMethod(this.controller.register));
     this.router.put(
       "/",
       [authenticateToken, checkRole([Roles.ADMIN])],

@@ -17,6 +17,8 @@ ENV JWT_SECRET="mysecretkey"
 ENV JWT_EXPIRATION="1d"
 ENV NODE_ENV="prod"
 
+EXPOSE 3001
+
 CMD ["npm", "run", "prod"]
 
 
