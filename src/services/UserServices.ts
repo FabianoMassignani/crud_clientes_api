@@ -122,12 +122,12 @@ class UserService {
     }
 
     const accessToken = generateToken({
-      sub: user.id,
+      sub: user._id,
       username: user.username,
     });
 
     const data: UserLogin = {
-      id: user.id,
+      _id: user._id,
       username: user.username,
       email: user.email,
       role: user.role,
@@ -139,13 +139,13 @@ class UserService {
   }
 
   async update(data: UpdateUserDto): Promise<User> {
-    const { id } = data;
+    const { _id } = data;
 
-    if (!id) {
+    if (!_id) {
       throw new BadRequest("Id não informado", ErrorCode.BAD_REQUEST);
     }
 
-    const user = await this.userRepository.findById(id);
+    const user = await this.userRepository.findById(_id);
 
     if (!user) {
       throw new NotFound("Usuário", ErrorCode.NOT_FOUND);

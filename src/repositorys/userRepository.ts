@@ -48,7 +48,7 @@ class UserRepository implements UserIRepository {
   }
 
   async update(data: UpdateUserDto): Promise<User | null> {
-    const user = await UserModel.findByIdAndUpdate(data.id, data, {
+    const user = await UserModel.findByIdAndUpdate(data._id, data, {
       new: true,
     });
 

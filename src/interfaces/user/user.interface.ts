@@ -1,5 +1,5 @@
 export type User = {
-  id: string;
+  _id: string;
   username: string;
   email: string;
   password: string;
@@ -15,6 +15,6 @@ export enum Roles {
 
 export type UserLogin = Omit<User, "password">;
 
-export type CreateUserDto = Omit<User, "id" | "accessToken">;
+export type CreateUserDto = Omit<User, "_id" | "accessToken">;
 
 export type UpdateUserDto = Partial<User>;
