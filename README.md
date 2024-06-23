@@ -1,4 +1,4 @@
-# Node.JS
+# API RESTful com Express e MongoDB para CRUD de Clientes e Usuários com Autenticação JWT e Testes Unitários
 
 ## Como Rodar o Projeto Localmente
 
@@ -11,6 +11,7 @@ git clone https://github.com/FabianoMassignani/crud_clientes_api.git
 2. Instale as dependências:
 
 ```
+cd crud_clientes_api
 npm install
 ```
 
@@ -20,11 +21,14 @@ npm install
 cp .env
 ```
 
+Adicione as seguintes variáveis de ambiente ao arquivo `.env` (deixei o meu MONGO_URI para facilitar o teste):
+
 ```
  MONGO_URI="mongodb+srv://fabiano:fabiano@app.4x3lw9q.mongodb.net/?retryWrites=true&w=majority&appName=app"
  MONGO_URI_TEST="mongodb+srv://fabiano:fabiano@app.4x3lw9q.mongodb.net/?retryWrites=true&w=majority&appName=app"
  PORT=3001
  JWT_SECRET="mysecretkey"
+ JWT_EXPIRATION="1d"
  NODE_ENV="dev"
 ```
 
@@ -57,7 +61,7 @@ docker run -p 3001:3001 -d api
 ### Usuários
 
 - POST `/api/users` - Cria um novo usuário
-- GET `/api/users/getAll` - Retorna todos os usuários
+- GET `/api/users/getAll` - Retorna todos os usuários com paginação e filtro
 - GET `/api/users/:id` - Retorna um usuário específico
 - PUT `/api/users` - Atualiza um usuário específico
 - DELETE `/api/users/:id` - Deleta um usuário específico

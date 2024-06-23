@@ -14,6 +14,7 @@ ENV MONGO_URI="mongodb+srv://fabiano:fabiano@app.4x3lw9q.mongodb.net/?retryWrite
 ENV MONGO_URI_TEST="mongodb+srv://fabiano:fabiano@app.4x3lw9q.mongodb.net/?retryWrites=true&w=majority&appName=app"
 ENV PORT=3001
 ENV JWT_SECRET="mysecretkey"
+ENV JWT_EXPIRATION="1d"
 ENV NODE_ENV="prod"
 
 CMD ["npm", "run", "prod"]
