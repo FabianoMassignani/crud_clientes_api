@@ -151,7 +151,7 @@ class UserService {
       throw new NotFound("Usuário", ErrorCode.NOT_FOUND);
     }
 
-    const { email, username, active = true, role } = data;
+    const { email, username, active, role } = data;
 
     if (!username) {
       throw new BadRequest("Nome não informado", ErrorCode.BAD_REQUEST);
