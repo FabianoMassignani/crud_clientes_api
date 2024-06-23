@@ -46,6 +46,10 @@ const userSchema: Schema = new Schema(
       type: String,
       required: false,
     },
+    tags: {
+      type: [String],
+      required: false,
+    },
     role: {
       type: [String],
       enum: ["USER", "ADMIN"],

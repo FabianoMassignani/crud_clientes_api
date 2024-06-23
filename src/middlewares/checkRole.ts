@@ -37,7 +37,7 @@ export const checkRole = (roles: Array<Roles>) => {
         return next();
       }
 
-      throw new BadRequest("Permissão negada", 401);
+      throw new BadRequest("Usuário não autorizado", 401);
     } catch (error) {
       next(error);
     }

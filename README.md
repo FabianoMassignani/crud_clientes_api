@@ -68,7 +68,16 @@ docker run -p 3001:3001 -d api
 
 ## Testes
 
+1. Troque a variável `NODE_ENV` para `test` no arquivo `.env`:
+
+```bash
+NODE_ENV=test
+```
+
+2.Para rodar os testes unitários, execute o seguinte comando:
+
 ```bash
 # testes unitários
+# pasta dos testes: tests
 $ npm test
 ```

@@ -11,7 +11,7 @@ class UserRepository implements UserIRepository {
     const users = await UserModel.find(
       {
         $or: [
-          { name: { $regex: search, $options: "i" } },
+          { username: { $regex: search, $options: "i" } },
           { email: { $regex: search, $options: "i" } },
         ],
       },
@@ -25,7 +25,7 @@ class UserRepository implements UserIRepository {
 
   async contUsers(): Promise<number> {
     const length = await UserModel.countDocuments();
-    
+
     return length;
   }
 

@@ -7,7 +7,7 @@
     "build": "tsc",
     "prod": "npm run build && npm run start",
     "dev": "ts-node-dev src/index.ts",
-    "test": "set NODE_ENV=test && jest"
+    "test": "jest"
   },
   "jest": {
     "testEnvironment": "node",
